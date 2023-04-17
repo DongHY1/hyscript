@@ -6,13 +6,13 @@ export interface ITokenizer {
   type: TokenizerType
   value: string | number
 }
-type TokenPattern = [RegExp, TokenizerType]
-const TOKEN_PATTERNS: TokenPattern[] = [
-  [/^\d+/, TokenizerType.Number],
-  [/^"[^"]*"/, TokenizerType.String],
-  [/^'[^']*'/, TokenizerType.String],
-]
 export class Tokenizer {
+  private readonly tokenPatterns: Array<[RegExp, TokenizerType]> = [
+    [/^\d+/, TokenizerType.Number],
+    [/^"[^"]*"/, TokenizerType.String],
+    [/^'[^']*'/, TokenizerType.String],
+  ]
+
   private string: string
   private cursor: number
   constructor() {
@@ -33,7 +33,7 @@ export class Tokenizer {
       return null
     const string = this.string.slice(this.cursor)
 
-    for (const [reg, type] of TOKEN_PATTERNS) {
+    for (const [reg, type] of this.tokenPatterns) {
       const value = this.matchTokenPattern(reg, string)
       if (!value)
         continue
