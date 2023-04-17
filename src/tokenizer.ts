@@ -1,77 +1,56 @@
 export enum TokenizerType {
-  NUMBER = 'Number',
-  STRING = 'String',
+  Number,
+  String,
 }
 export interface ITokenizer {
   type: TokenizerType
   value: string | number
 }
-
+type TokenPattern = [RegExp, TokenizerType]
+const TOKEN_PATTERNS: TokenPattern[] = [
+  [/^\d+/, TokenizerType.Number],
+  [/^"[^"]*"/, TokenizerType.String],
+  [/^'[^']*'/, TokenizerType.String],
+]
 export class Tokenizer {
-  private _string: string
-  private _cursor: number
+  private string: string
+  private cursor: number
   constructor() {
-    this._string = ''
-    this._cursor = 0
+    this.string = ''
+    this.cursor = 0
   }
 
-  init(string: string) {
-    this._string = string
+  init(string: string): void {
+    this.string = string
   }
 
   private hasMoreToken(): boolean {
-    return this._cursor < this._string.length
+    return this.cursor < this.string.length
   }
 
   public getNextToken(): ITokenizer | null {
     if (!this.hasMoreToken())
       return null
-    const string = this._string.slice(this._cursor)
-    const firstElement = string[0]
-    // 处理 Number
-    if (this.isNumber(firstElement)) {
-      const value = this.parseNumber(string)
-      return {
-        type: TokenizerType.NUMBER,
-        value,
-      }
-    }
-    // 处理String
-    // TODO:only double quote
-    if (this.isQuote(firstElement)) {
-      let value = ''
+    const string = this.string.slice(this.cursor)
 
-      do
-        value += string[this._cursor++]
-      while (!this.isQuote(string[this._cursor]) && !this.isEOF())
-
-      value += string[this._cursor++]
+    for (const [reg, type] of TOKEN_PATTERNS) {
+      const value = this.matchTokenPattern(reg, string)
+      if (!value)
+        continue
       return {
-        type: TokenizerType.STRING,
+        type,
         value,
       }
     }
     return null
   }
 
-  private isNumber(value: string): boolean {
-    return /[0-9]/.test(value)
-  }
-
-  private isEOF(): boolean {
-    return this._cursor === this._string.length
-  }
-
-  private isQuote(value: string): boolean {
-    return value === '"' || value === '\''
-  }
-
-  private parseNumber(string: string): string {
-    let numStr = ''
-    while (this.isNumber(string[this._cursor])) {
-      numStr += string[this._cursor]
-      this._cursor++
+  private matchTokenPattern(regex: RegExp, string: string): string | null {
+    const matched = regex.exec(string)
+    if (matched) {
+      this.cursor += matched[0].length
+      return matched[0]
     }
-    return numStr
+    return null
   }
 }

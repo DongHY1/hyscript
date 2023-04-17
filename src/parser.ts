@@ -40,9 +40,9 @@ export class Parser {
 
   private literal(): ILiteral {
     switch (this._lookahead?.type) {
-      case TokenizerType.NUMBER:
+      case TokenizerType.Number:
         return this.numberLiteral()
-      case TokenizerType.STRING:
+      case TokenizerType.String:
         return this.stringLiteral()
       default:
         return {
@@ -53,7 +53,7 @@ export class Parser {
   }
 
   private numberLiteral(): ILiteral {
-    const token = this.eat(TokenizerType.NUMBER)
+    const token = this.eat(TokenizerType.Number)
     return {
       type: LiteralType.NUMBERLITERAL,
       value: Number(token.value),
@@ -61,7 +61,7 @@ export class Parser {
   }
 
   private stringLiteral(): ILiteral {
-    const token = this.eat(TokenizerType.STRING)
+    const token = this.eat(TokenizerType.String)
     const value = token.value as string
     return {
       type: LiteralType.STRINGLITERAL,
