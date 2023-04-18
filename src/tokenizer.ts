@@ -1,7 +1,8 @@
 export enum TokenizerType {
+  WhiteSpace,
+  Comment,
   Number,
   String,
-  WhiteSpace,
 }
 export interface ITokenizer {
   type: TokenizerType
@@ -10,6 +11,8 @@ export interface ITokenizer {
 export class Tokenizer {
   private readonly tokenPatterns: Array<[RegExp, TokenizerType]> = [
     [/^\s+/, TokenizerType.WhiteSpace],
+    [/^\/\/.*/, TokenizerType.Comment],
+    [/^\/\*[\s\S]*?\*\//, TokenizerType.Comment],
     [/^\d+/, TokenizerType.Number],
     [/^"[^"]*"/, TokenizerType.String],
     [/^'[^']*'/, TokenizerType.String],
@@ -39,10 +42,9 @@ export class Tokenizer {
       const value = this.matchTokenPattern(reg, string)
       if (!value)
         continue
-      // 处理空白字符情况
-      if (type === TokenizerType.WhiteSpace)
+      // 处理空白字符和注释情况
+      if (type === TokenizerType.WhiteSpace || type === TokenizerType.Comment)
         return this.getNextToken()
-
       return {
         type,
         value,
