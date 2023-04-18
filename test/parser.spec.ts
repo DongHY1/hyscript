@@ -40,6 +40,18 @@ describe('Parser', () => {
       },
     })
   })
+  it('NumbericLiteral pure string with whitespace number', () => {
+    const parser = new Parser()
+    // eslint-disable-next-line @typescript-eslint/quotes
+    const res: IProgram = parser.parse(`    123      `)
+    expect(res).toEqual({
+      type: ProgramType.PROGRAM,
+      body: {
+        type: LiteralType.NUMBERLITERAL,
+        value: 123,
+      },
+    })
+  })
   it('StringLiteral single quote string', () => {
     const parser = new Parser()
     // eslint-disable-next-line @typescript-eslint/quotes
