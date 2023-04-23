@@ -1,9 +1,14 @@
 # hyscript
 Building a simple compiler and interpreter
 ## Feature
-- [x] number and string tokenizer
+- [x] Parse 
+    - [x] whitespace
+    - [x] comment
+    - [x] number
+    - [x] string
+    - [x] semicolon
 ## Article
-- [] PartI: Build your own languages - Setup
-- [] PartII: Build your own languages - Parser and tokenizer
+- [ ] PartI: Build your own languages - Setup
+- [ ] PartII: Build your own languages - Parser and tokenizer
 ## License
 MIT License © 2023 Dong HY
