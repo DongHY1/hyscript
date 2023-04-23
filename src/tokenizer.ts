@@ -3,6 +3,7 @@ export enum TokenizerType {
   Comment,
   Number,
   String,
+  SemiColumn, // ;
 }
 export interface ITokenizer {
   type: TokenizerType
@@ -13,6 +14,7 @@ export class Tokenizer {
     [/^\s+/, TokenizerType.WhiteSpace],
     [/^\/\/.*/, TokenizerType.Comment],
     [/^\/\*[\s\S]*?\*\//, TokenizerType.Comment],
+    [/^;/, TokenizerType.SemiColumn],
     [/^\d+/, TokenizerType.Number],
     [/^"[^"]*"/, TokenizerType.String],
     [/^'[^']*'/, TokenizerType.String],

@@ -2,19 +2,26 @@ import { Tokenizer, TokenizerType } from './tokenizer'
 import type { ITokenizer } from './tokenizer'
 
 export enum LiteralType {
-  NUMBERLITERAL = 'NumberLiteral',
-  STRINGLITERAL = 'StringLiteral',
+  NumberLiteral,
+  StringLiteral,
 }
 export enum ProgramType {
-  PROGRAM = 'Program',
+  Program,
+}
+export enum StatementType {
+  ExpressionStatement,
 }
 export interface ILiteral {
   type: LiteralType
   value: number | string
 }
 export interface IProgram {
-  type: ProgramType.PROGRAM
-  body: ILiteral
+  type: ProgramType
+  body: IExpression[]
+}
+export interface IExpression {
+  type: StatementType
+  expression: ILiteral
 }
 
 export class Parser {
@@ -33,9 +40,34 @@ export class Parser {
 
   private program(): IProgram {
     return {
-      type: ProgramType.PROGRAM,
-      body: this.literal(),
+      type: ProgramType.Program,
+      body: this.statementList(),
     }
+  }
+
+  private statementList(): IExpression[] {
+    const statementList = [this.statement()]
+    while (this._lookahead !== null)
+      statementList.push(this.statement())
+
+    return statementList
+  }
+
+  private statement(): IExpression {
+    return this.expressionStatement()
+  }
+
+  private expressionStatement(): IExpression {
+    const expression = this.expression()
+    this.eat(TokenizerType.SemiColumn)
+    return {
+      type: StatementType.ExpressionStatement,
+      expression,
+    }
+  }
+
+  private expression(): ILiteral {
+    return this.literal()
   }
 
   private literal(): ILiteral {
@@ -46,7 +78,7 @@ export class Parser {
         return this.stringLiteral()
       default:
         return {
-          type: LiteralType.STRINGLITERAL,
+          type: LiteralType.StringLiteral,
           value: '',
         }
     }
@@ -55,7 +87,7 @@ export class Parser {
   private numberLiteral(): ILiteral {
     const token = this.eat(TokenizerType.Number)
     return {
-      type: LiteralType.NUMBERLITERAL,
+      type: LiteralType.NumberLiteral,
       value: Number(token.value),
     }
   }
@@ -64,7 +96,7 @@ export class Parser {
     const token = this.eat(TokenizerType.String)
     const value = token.value as string
     return {
-      type: LiteralType.STRINGLITERAL,
+      type: LiteralType.StringLiteral,
       // 去掉首尾的引号
       value: value.slice(1, -1),
     }
