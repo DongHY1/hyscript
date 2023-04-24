@@ -1,5 +1,11 @@
 # hyscript
 
+## 1.0.1
+
+### Patch Changes
+
+- 9de7e0f: update readme.md and add .npmignore file
+
 ## 1.0.0
 
 ### Major Changes
