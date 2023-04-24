@@ -7,6 +7,7 @@ Building a simple compiler and interpreter
     - [x] number
     - [x] string
     - [x] semicolon
+    - [x] left and right brace
 ## Article
 - [ ] PartI: Build your own languages - Setup
 - [ ] PartII: Build your own languages - Parser and tokenizer
