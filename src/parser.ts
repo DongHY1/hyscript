@@ -19,8 +19,9 @@ export interface ILiteral {
 }
 export interface IProgram {
   type: ProgramType
-  body: Array<IExpression | IBlock | IEmpty>
+  body: Array<IStatement>
 }
+export type IStatement = IExpression | IBlock | IEmpty
 export interface IExpression {
   type: StatementType.ExpressionStatement
   expression: ILiteral
@@ -54,7 +55,7 @@ export class Parser {
     }
   }
 
-  private statementList(stopLookahead?: TokenizerType): Array<IExpression | IBlock | IEmpty> {
+  private statementList(stopLookahead?: TokenizerType): Array<IStatement> {
     const statementList = [this.statement()]
     while (this._lookahead !== null && this._lookahead.type !== stopLookahead)
       statementList.push(this.statement())
@@ -62,7 +63,7 @@ export class Parser {
     return statementList
   }
 
-  private statement(): IExpression | IBlock | IEmpty {
+  private statement(): IStatement {
     switch (this._lookahead?.type) {
       case TokenizerType.SemiColumn:
         return this.emptyStatement()
