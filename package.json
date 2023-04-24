@@ -13,7 +13,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "lint": "eslint --fix",
+    "lint": "tsc && eslint --fix",
     "release":"pnpm run build && changeset publish",
     "cz": "czg",
     "test": "vitest"
