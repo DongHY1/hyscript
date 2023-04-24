@@ -197,8 +197,50 @@ describe('Parser', () => {
               type: StatementType.ExpressionStatement,
               expression: {
                 type: LiteralType.StringLiteral,
-                value: 'Hello',
+                // eslint-disable-next-line @typescript-eslint/quotes
+                value: "Hello",
               },
+            },
+          ],
+        },
+      ],
+    })
+  })
+  it('with nested block', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse(`
+    {
+      123;
+      {
+        "Hello";
+      }
+    }
+    `)
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.BlockStatement,
+          body: [
+            {
+              type: StatementType.ExpressionStatement,
+              expression: {
+                type: LiteralType.NumberLiteral,
+                value: 123,
+              },
+            },
+            {
+              type: StatementType.BlockStatement,
+              body: [
+                {
+                  type: StatementType.ExpressionStatement,
+                  expression: {
+                    type: LiteralType.StringLiteral,
+                    // eslint-disable-next-line @typescript-eslint/quotes
+                    value: "Hello",
+                  },
+                },
+              ],
             },
           ],
         },
