@@ -16,7 +16,8 @@
     "lint": "tsc && eslint --fix",
     "release":"pnpm run build && changeset publish",
     "cz": "czg",
-    "test": "vitest"
+    "dev":"vitest",
+    "test": "vitest run"
   },
   "config": {
     "commitizen": {
