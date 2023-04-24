@@ -159,4 +159,37 @@ describe('Parser', () => {
       ],
     })
   })
+  it('with {}', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse(`
+    {
+      123;
+      "Hello";
+    }
+    `)
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.BlockStatement,
+          body: [
+            {
+              type: StatementType.ExpressionStatement,
+              expression: {
+                type: LiteralType.NumberLiteral,
+                value: 123,
+              },
+            },
+            {
+              type: StatementType.ExpressionStatement,
+              expression: {
+                type: LiteralType.StringLiteral,
+                value: 'Hello',
+              },
+            },
+          ],
+        },
+      ],
+    })
+  })
 })
