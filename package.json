@@ -14,6 +14,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "eslint --fix",
+    "release":"pnpm run build && changeset publish",
     "cz": "czg",
     "test": "vitest"
   },
