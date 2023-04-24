@@ -1,5 +1,11 @@
 # hyscript
 
+## 1.0.2
+
+### Patch Changes
+
+- add commitlint.config.js to .npmignore
+
 ## 1.0.1
 
 ### Patch Changes
