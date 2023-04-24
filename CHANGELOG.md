@@ -1,5 +1,11 @@
 # hyscript
 
+## 1.0.3
+
+### Patch Changes
+
+- 711c9fd: fix
+
 ## 1.0.2
 
 ### Patch Changes
