@@ -8,17 +8,18 @@
   "homepage": "https://github.com/DongHY1/[name]#readme",
   "bugs": "https://github.com/DongHY1/[name]/issues",
   "license": "MIT",
+  "private":false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev": "vitest",
+    "test": "vitest run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc && eslint --fix",
-    "ci":"pnpm run lint && pnpm run test && pnpm run build",
-    "release":"pnpm run build && changeset publish",
-    "cz": "czg",
-    "dev":"vitest",
-    "test": "vitest run"
+    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "release": "pnpm run ci && changeset publish",
+    "cz": "czg"
   },
   "config": {
     "commitizen": {
@@ -30,6 +31,7 @@
     "@antfu/eslint-config": "^0.38.4",
     "@changesets/cli": "^2.26.1",
     "@eslint/create-config": "^0.4.2",
+    "@types/node": "^18.16.0",
     "cz-git": "^1.6.1",
     "czg": "^1.6.1",
     "pnpm": "^8.1.1",
