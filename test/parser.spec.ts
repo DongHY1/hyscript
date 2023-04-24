@@ -247,4 +247,16 @@ describe('Parser', () => {
       ],
     })
   })
+  it('with empty statement ', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse(';')
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.EmptyStatement,
+        },
+      ],
+    })
+  })
 })

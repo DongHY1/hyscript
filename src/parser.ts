@@ -9,6 +9,7 @@ export enum ProgramType {
   Program,
 }
 export enum StatementType {
+  EmptyStatement,
   BlockStatement,
   ExpressionStatement,
 }
@@ -18,7 +19,7 @@ export interface ILiteral {
 }
 export interface IProgram {
   type: ProgramType
-  body: Array<IExpression | IBlock>
+  body: Array<IExpression | IBlock | IEmpty>
 }
 export interface IExpression {
   type: StatementType.ExpressionStatement
@@ -27,6 +28,9 @@ export interface IExpression {
 export interface IBlock {
   type: StatementType.BlockStatement
   body: IExpression[]
+}
+export interface IEmpty {
+  type: StatementType.EmptyStatement
 }
 
 export class Parser {
@@ -50,7 +54,7 @@ export class Parser {
     }
   }
 
-  private statementList(stopLookahead?: TokenizerType): Array<IExpression | IBlock> {
+  private statementList(stopLookahead?: TokenizerType): Array<IExpression | IBlock | IEmpty> {
     const statementList = [this.statement()]
     while (this._lookahead !== null && this._lookahead.type !== stopLookahead)
       statementList.push(this.statement())
@@ -58,12 +62,21 @@ export class Parser {
     return statementList
   }
 
-  private statement(): IExpression | IBlock {
+  private statement(): IExpression | IBlock | IEmpty {
     switch (this._lookahead?.type) {
+      case TokenizerType.SemiColumn:
+        return this.emptyStatement()
       case TokenizerType.LeftBrace:
         return this.blockStatement()
       default:
         return this.expressionStatement()
+    }
+  }
+
+  private emptyStatement(): IEmpty {
+    this.eat(TokenizerType.SemiColumn)
+    return {
+      type: StatementType.EmptyStatement,
     }
   }
 
