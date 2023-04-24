@@ -4,5 +4,6 @@ test
 .github
 .vscode
 .eslintrc
+commitlint.config.cjs
 pnpm-lock.yaml
 tsconfig.json
