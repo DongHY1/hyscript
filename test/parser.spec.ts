@@ -159,7 +159,20 @@ describe('Parser', () => {
       ],
     })
   })
-  it('with {}', () => {
+  it('with empty block', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse('{}')
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.BlockStatement,
+          body: [],
+        },
+      ],
+    })
+  })
+  it('with string and number in block', () => {
     const parser = new Parser()
     const res: IProgram = parser.parse(`
     {
