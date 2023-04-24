@@ -1,11 +1,11 @@
 export enum TokenizerType {
-  WhiteSpace,
-  Comment,
-  Number,
-  String,
-  SemiColumn, // ;
-  LeftBrace, // {
-  RightBrace, // }
+  WhiteSpace = 'WhiteSpace',
+  Comment = 'Comment',
+  Number = 'Number',
+  String = 'String',
+  SemiColumn = 'SemiColumn', // ;
+  LeftBrace = 'leftBrace', // {
+  RightBrace = 'RightBrace', // }
 }
 export interface ITokenizer {
   type: TokenizerType
@@ -62,8 +62,8 @@ export class Tokenizer {
   private matchTokenPattern(regex: RegExp, string: string): string | null {
     const matched = regex.exec(string)
     if (matched) {
-      this.cursor += matched[0].length
-      return matched[0]
+      this.cursor += matched[0]!.length
+      return matched[0]!
     }
     return null
   }

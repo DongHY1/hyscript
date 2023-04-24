@@ -1,7 +1,7 @@
 {
   "name": "hyscript",
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "packageManager": "pnpm@8.2.0",
   "description": "Building a simple compiler and interpreter",
   "author": "Dong HY <hi@donghy.me>",
@@ -12,7 +12,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "vitest",
+    "dev": "vitest --ui",
     "test": "vitest run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc && eslint --fix",
@@ -31,6 +31,7 @@
     "@changesets/cli": "^2.26.1",
     "@eslint/create-config": "^0.4.2",
     "@types/node": "^18.16.0",
+    "@vitest/ui": "^0.30.1",
     "cz-git": "^1.6.1",
     "czg": "^1.6.1",
     "pnpm": "^8.1.1",

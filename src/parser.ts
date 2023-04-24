@@ -2,16 +2,16 @@ import { Tokenizer, TokenizerType } from './tokenizer'
 import type { ITokenizer } from './tokenizer'
 
 export enum LiteralType {
-  NumberLiteral,
-  StringLiteral,
+  NumberLiteral = 'NumberLiteral',
+  StringLiteral = 'StringLiteral',
 }
 export enum ProgramType {
-  Program,
+  Program = 'Program',
 }
 export enum StatementType {
-  EmptyStatement,
-  BlockStatement,
-  ExpressionStatement,
+  EmptyStatement = 'EmptyStatement',
+  BlockStatement = 'BlockStatement',
+  ExpressionStatement = 'ExpressionStatement',
 }
 export interface ILiteral {
   type: LiteralType
