@@ -13,6 +13,19 @@ export enum StatementType {
   BlockStatement = 'BlockStatement',
   ExpressionStatement = 'ExpressionStatement',
 }
+export enum OperatorType {
+  Plus = '+',
+  Sub = '-',
+}
+export enum ExpressionType {
+  BinaryExpression = 'BinaryExpression',
+}
+export interface IBinary {
+  type: ExpressionType.BinaryExpression
+  operator: OperatorType
+  left: ILiteral | IBinary
+  right: ILiteral | IBinary
+}
 export interface ILiteral {
   type: LiteralType
   value: number | string
@@ -24,7 +37,7 @@ export interface IProgram {
 export type IStatement = IExpression | IBlock | IEmpty
 export interface IExpression {
   type: StatementType.ExpressionStatement
-  expression: ILiteral
+  expression: ILiteral | IBinary
 }
 export interface IBlock {
   type: StatementType.BlockStatement
@@ -100,11 +113,26 @@ export class Parser {
     }
   }
 
-  private expression(): ILiteral {
-    return this.literal()
+  private expression(): ILiteral | IBinary {
+    return this.addExpression()
   }
 
-  private literal(): ILiteral {
+  private addExpression(): ILiteral | IBinary {
+    let left = this.literal()
+    while (this._lookahead?.type === TokenizerType.AdditiveOperator) {
+      const operator = this.eat(TokenizerType.AdditiveOperator).value as OperatorType
+      const right = this.literal()
+      left = {
+        type: ExpressionType.BinaryExpression,
+        operator,
+        left,
+        right,
+      }
+    }
+    return left
+  }
+
+  private literal(): ILiteral | IBinary {
     switch (this._lookahead?.type) {
       case TokenizerType.Number:
         return this.numberLiteral()

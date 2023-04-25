@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { IProgram } from '../src'
-import { LiteralType, Parser, ProgramType, StatementType } from '../src'
+import { ExpressionType, LiteralType, OperatorType, Parser, ProgramType, StatementType } from '../src'
 
 describe('Parser', () => {
   it('NumbericLiteral pure string number', () => {
@@ -255,6 +255,62 @@ describe('Parser', () => {
       body: [
         {
           type: StatementType.EmptyStatement,
+        },
+      ],
+    })
+  })
+  it('binary expression with add', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse('2+2;')
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.ExpressionStatement,
+          expression: {
+            type: ExpressionType.BinaryExpression,
+            operator: OperatorType.Plus,
+            left: {
+              type: LiteralType.NumberLiteral,
+              value: 2,
+            },
+            right: {
+              type: LiteralType.NumberLiteral,
+              value: 2,
+            },
+          },
+        },
+      ],
+    })
+  })
+  it('binary expression with nest add', () => {
+    const parser = new Parser()
+    const res: IProgram = parser.parse('3+2-2;')
+    expect(res).toEqual({
+      type: ProgramType.Program,
+      body: [
+        {
+          type: StatementType.ExpressionStatement,
+          expression: {
+            type: ExpressionType.BinaryExpression,
+            operator: OperatorType.Sub,
+            left: {
+              type: ExpressionType.BinaryExpression,
+              operator: OperatorType.Plus,
+              left: {
+                type: LiteralType.NumberLiteral,
+                value: 3,
+              },
+              right: {
+                type: LiteralType.NumberLiteral,
+                value: 2,
+              },
+            },
+            right: {
+              type: LiteralType.NumberLiteral,
+              value: 2,
+            },
+          },
         },
       ],
     })

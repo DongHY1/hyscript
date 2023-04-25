@@ -6,6 +6,7 @@ export enum TokenizerType {
   SemiColumn = 'SemiColumn', // ;
   LeftBrace = 'leftBrace', // {
   RightBrace = 'RightBrace', // }
+  AdditiveOperator = 'AdditiveOperator', // + or -
 }
 export interface ITokenizer {
   type: TokenizerType
@@ -19,6 +20,7 @@ export class Tokenizer {
     [/^;/, TokenizerType.SemiColumn],
     [/^{/, TokenizerType.LeftBrace],
     [/^}/, TokenizerType.RightBrace],
+    [/^[+/-]/, TokenizerType.AdditiveOperator],
     [/^\d+/, TokenizerType.Number],
     [/^"[^"]*"/, TokenizerType.String],
     [/^'[^']*'/, TokenizerType.String],

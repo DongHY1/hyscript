@@ -1,5 +1,11 @@
 # hyscript
 
+## 1.0.5
+
+### Patch Changes
+
+- support plus and sub binary expression
+
 ## 1.0.4
 
 ### Patch Changes
